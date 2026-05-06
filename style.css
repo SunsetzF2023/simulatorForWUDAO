@@ -209,6 +209,8 @@ body {
 .rarity-uncommon { background: #4caf50; }
 .rarity-rare { background: #2196f3; }
 .rarity-superrare { background: #9c27b0; }
+.rarity-epic { background: #ff5722; }
+.rarity-mythic { background: #795548; }
 .rarity-legendary { background: #ff9800; }
 
 /* 关键词标签 */

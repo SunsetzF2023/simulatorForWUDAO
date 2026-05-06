@@ -92,6 +92,8 @@ export class Card {
             'Uncommon': '#4caf50',
             'Rare': '#2196f3',
             'SuperRare': '#9c27b0',
+            'Epic': '#ff5722',
+            'Mythic': '#795548',
             'Legendary': '#ff9800'
         };
         return colors[this.rarity] || '#757575';

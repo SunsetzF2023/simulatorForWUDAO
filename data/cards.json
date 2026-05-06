@@ -1,7 +1,7 @@
 {
   "cards": [
     {
-      "Card_Name": "Basic Staff",
+      "Card_Name": "Basic Office Intern",
       "Rarity": "Common",
       "Faction": ["Ops"],
       "Salary": 1,
@@ -10,41 +10,31 @@
         "Passive": "None",
         "Active": "None"
       },
-      "description": "普通办公室职员，职场炮灰。毫无用处，纯粹用来铺场消耗"
+      "description": "办公室实习生，职场新人，战斗力较弱但胜在便宜"
     },
     {
-      "Card_Name": "IT Support Officer",
-      "Rarity": "Uncommon",
-      "Faction": ["Ops", "IT"],
-      "Salary": 2,
-      "Stats": {"ATK": 1, "HP": 5},
-      "Abilities": {
-        "Passive": "Battlecry: Summon a random Common Junior.",
-        "Active": "Immune to DMG <= 1; If target > SuperRare, Self-Destruct & Absorb."
-      }
-    },
-    {
-      "Card_Name": "Assistant System Engineer",
+      "Card_Name": "Basic Office Staff",
       "Rarity": "Common",
-      "Faction": ["Ops", "IT"],
+      "Faction": ["Ops"],
       "Salary": 1,
-      "Stats": {"ATK": 1, "HP": 1},
+      "Stats": {"ATK": 1, "HP": 2},
       "Abilities": {
-        "Passive": "Lethargic: Start in Sleep mode during first turn, gaining Immune to all damage while sleeping.",
-        "Active": "None."
+        "Passive": "None",
+        "Active": "None"
       },
-      "description": "普普通通的办公室职员，职场炮灰。毫无用处，纯粹用来铺场消耗"
+      "description": "普通办公室职员，基本的战斗力单位"
     },
     {
-      "Card_Name": "Sales Client Manager",
-      "Rarity": "SuperRare",
-      "Faction": ["Sales"],
-      "Salary": 4,
-      "Stats": {"ATK": 5, "HP": 7},
+      "Card_Name": "Basic Admin Staff",
+      "Rarity": "Common",
+      "Faction": ["Admin"],
+      "Salary": 3,
+      "Stats": {"ATK": 2, "HP": 4},
       "Abilities": {
-        "Passive": "Battlecry: Summon a random Common Junior.",
-        "Active": "Immune to DMG <= 1; If target > SuperRare, Self-Destruct & Absorb."
-      }
+        "Passive": "None",
+        "Active": "None"
+      },
+      "description": "行政人员，拥有更好的耐久度和攻击力"
     }
   ]
 }

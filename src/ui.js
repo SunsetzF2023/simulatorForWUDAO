@@ -180,6 +180,8 @@ export class UIManager {
             'Uncommon': 'U',
             'Rare': 'R',
             'SuperRare': 'SR',
+            'Epic': 'E',
+            'Mythic': 'M',
             'Legendary': 'L'
         };
         return abbreviations[rarity] || rarity[0];

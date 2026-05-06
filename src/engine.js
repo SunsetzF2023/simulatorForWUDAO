@@ -53,26 +53,50 @@ export class GameEngine {
     }
 
     createDeck() {
-        // 临时实现：创建基础卡组
+        // 创建基础测试卡组
         const deck = [];
-        const basicStaff = this.allCards.find(card => card.name === 'Basic Staff');
         
-        if (basicStaff) {
+        // 从可用卡牌中创建卡组
+        if (this.allCards.length > 0) {
+            // 混合3张基础卡牌
             for (let i = 0; i < 20; i++) {
-                deck.push(basicStaff.clone());
+                const randomCard = this.allCards[Math.floor(Math.random() * this.allCards.length)];
+                deck.push(randomCard.clone());
             }
         } else {
-            // 如果没有找到基础卡牌，创建临时卡牌
-            for (let i = 0; i < 20; i++) {
-                const tempCard = {
-                    Card_Name: "Basic Staff",
+            // 如果没有卡牌数据，创建临时卡牌
+            const tempCards = [
+                {
+                    Card_Name: "Basic Office Intern",
                     Rarity: "Common",
                     Faction: ["Ops"],
                     Salary: 1,
                     Stats: { ATK: 1, HP: 1 },
                     Abilities: { Passive: "None", Active: "None" },
+                    description: "办公室实习生"
+                },
+                {
+                    Card_Name: "Basic Office Staff",
+                    Rarity: "Common",
+                    Faction: ["Ops"],
+                    Salary: 1,
+                    Stats: { ATK: 1, HP: 2 },
+                    Abilities: { Passive: "None", Active: "None" },
                     description: "普通办公室职员"
-                };
+                },
+                {
+                    Card_Name: "Basic Admin Staff",
+                    Rarity: "Common",
+                    Faction: ["Admin"],
+                    Salary: 3,
+                    Stats: { ATK: 2, HP: 4 },
+                    Abilities: { Passive: "None", Active: "None" },
+                    description: "行政人员"
+                }
+            ];
+            
+            for (let i = 0; i < 20; i++) {
+                const tempCard = tempCards[Math.floor(Math.random() * tempCards.length)];
                 deck.push(new Card(tempCard));
             }
         }
