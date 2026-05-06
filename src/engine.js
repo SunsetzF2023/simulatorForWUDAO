@@ -1,5 +1,7 @@
 // 游戏核心引擎 - 回合管理、状态控制、游戏循环
 
+import { Hero, Card } from './entities.js';
+
 export class GameEngine {
     constructor() {
         this.state = {
