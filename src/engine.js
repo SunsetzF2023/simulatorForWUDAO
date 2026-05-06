@@ -1,6 +1,6 @@
 // 游戏核心引擎 - 回合管理、状态控制、游戏循环
 
-import { Hero, Card } from './entities.js';
+import { Card } from './entities.js';
 
 export class GameEngine {
     constructor() {
@@ -10,8 +10,8 @@ export class GameEngine {
             isPlayerTurn: true,
             playerSalary: 1,
             maxSalary: 10,
-            playerHero: new Hero('Player', 30),
-            opponentHero: new Hero('Opponent', 30),
+            playerHero: { hp: 30, maxHp: 30, name: "我方大学生" },
+            opponentHero: { hp: 30, maxHp: 30, name: "敌方大学生" },
             playerHand: [],
             opponentHand: [],
             playerMinions: [],
@@ -293,7 +293,7 @@ export class GameEngine {
     }
 
     endGame() {
-        const message = this.state.winner === 'player' ? '恭喜你赢得了胜利！' : '很遗憾，你输掉了比赛。';
+        const message = this.state.winner === 'player' ? '恭喜你赢得了胜利！' : '公司破产，滚回学校';
         this.ui.showModal('游戏结束', message);
         this.ui.addLog(`游戏结束 - ${message}`, 'combat');
     }
@@ -301,15 +301,19 @@ export class GameEngine {
     // 获取可攻击目标
     getAttackTargets(isPlayer) {
         const targets = [];
+        const enemyMinions = isPlayer ? this.state.opponentMinions : this.state.playerMinions;
+        const enemyHero = isPlayer ? this.state.opponentHero : this.state.playerHero;
         
-        if (isPlayer) {
-            // 玩家可以攻击对手的随从和英雄
-            targets.push(...this.state.opponentMinions);
-            targets.push(this.state.opponentHero);
+        // 检查是否有嘲讽单位
+        const tauntMinions = enemyMinions.filter(minion => minion.taunt);
+        
+        if (tauntMinions.length > 0) {
+            // 有嘲讽单位，只能攻击嘲讽单位
+            targets.push(...tauntMinions);
         } else {
-            // 对手可以攻击玩家的随从和英雄
-            targets.push(...this.state.playerMinions);
-            targets.push(this.state.playerHero);
+            // 没有嘲讽单位，可以攻击所有随从和英雄
+            targets.push(...enemyMinions);
+            targets.push(enemyHero);
         }
         
         return targets;

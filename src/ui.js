@@ -13,6 +13,7 @@ export class UIManager {
             deckCount: document.getElementById('deck-count'),
             turnNumber: document.getElementById('turn-number'),
             opponentHp: document.getElementById('opponent-hp'),
+            playerHeroHp: document.getElementById('player-hero-hp'),
             endTurnBtn: document.getElementById('end-turn-btn'),
             
             // 游戏区域
@@ -71,6 +72,10 @@ export class UIManager {
         this.renderMinions(state.playerMinions, true);
         this.renderMinions(state.opponentMinions, false);
         
+        // 渲染英雄信息
+        this.renderHero(state.playerHero, true);
+        this.renderHero(state.opponentHero, false);
+        
         // 更新按钮状态
         this.updateEndTurnButton(state);
     }
@@ -114,6 +119,14 @@ export class UIManager {
             
             container.appendChild(minionElement);
         });
+    }
+
+    renderHero(hero, isPlayer) {
+        // 更新英雄HP显示
+        const hpElement = isPlayer ? this.elements.playerHeroHp : this.elements.opponentHp;
+        if (hpElement) {
+            hpElement.textContent = `${hero.hp}/${hero.maxHp}`;
+        }
     }
 
     createCardElement(card, isInHand) {

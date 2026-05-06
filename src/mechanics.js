@@ -125,28 +125,38 @@ export class GameMechanics {
         // 执行攻击
         const damageToDefender = attacker.attack;
         const damageToAttacker = defender.attack || 0;
+        const isHeroDefender = typeof defender.hp !== 'undefined' && !defender.attack; // 简单的英雄判断
 
         // 处理攻击伤害
-        const actualDamageToDefender = defender.takeDamage(damageToDefender);
+        let actualDamageToDefender;
+        if (isHeroDefender) {
+            // 攻击英雄
+            actualDamageToDefender = damageToDefender;
+            defender.hp = Math.max(0, defender.hp - actualDamageToDefender);
+            gameState.ui.addLog(`${attacker.name} 直接攻击了 ${defender.name}，造成 ${actualDamageToDefender} 点伤害`, 'combat');
+        } else {
+            // 攻击随从
+            actualDamageToDefender = defender.takeDamage(damageToDefender);
+        }
         
-        // 处理反击伤害（如果目标不是英雄）
-        if (defender.attack && !defender.isHero) {
+        // 处理反击伤害（只有随从会反击）
+        if (!isHeroDefender && defender.attack) {
             const actualDamageToAttacker = attacker.takeDamage(damageToAttacker);
         }
 
         // 标记已攻击
         attacker.hasAttacked = true;
 
-        // 处理毒药效果
-        if (attacker.poisonous && !defender.isHero) {
+        // 处理毒药效果（只对随从生效）
+        if (attacker.poisonous && !isHeroDefender) {
             if (this.shouldPUAApply(attacker, defender)) {
                 defender.hp = 0; // 直接摧毁
                 gameState.ui.addLog(`${attacker.name} 的职场PUA摧毁了 ${defender.name}`, 'combat');
             }
         }
 
-        // 处理绩效考核效果
-        if (defender.keywords.includes('PerformanceReview') && actualDamageToDefender > 0) {
+        // 处理绩效考核效果（只对随从生效）
+        if (!isHeroDefender && defender.keywords && defender.keywords.includes('PerformanceReview') && actualDamageToDefender > 0) {
             defender.attack += 2;
             defender.maxHp += 2;
             defender.hp += 2;
