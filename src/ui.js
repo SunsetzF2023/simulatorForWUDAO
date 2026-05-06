@@ -10,7 +10,9 @@ export class UIManager {
     }
 
     initializeElements() {
-        return {
+        console.log("🔍 InitializeElements: Starting DOM element detection...");
+        
+        const elements = {
             // 资源栏
             playerSalary: document.getElementById('player-salary'),
             deckCount: document.getElementById('deck-count'),
@@ -40,6 +42,20 @@ export class UIManager {
             modalMessage: document.getElementById('modal-message'),
             modalClose: document.getElementById('modal-close')
         };
+        
+        // 检查关键元素
+        const criticalElements = ['playerHand', 'playerMinions', 'opponentMinions', 'playerSalary', 'opponentHp'];
+        criticalElements.forEach(elementName => {
+            const element = elements[elementName];
+            if (!element) {
+                console.error(`❌ InitializeElements: Critical element #${elementName} not found!`);
+            } else {
+                console.log(`✅ InitializeElements: #${elementName} found`);
+            }
+        });
+        
+        console.log("🔍 InitializeElements: DOM element detection complete");
+        return elements;
     }
 
     setGameEngine(engine) {
@@ -69,24 +85,48 @@ export class UIManager {
     }
 
     render() {
-        if (!this.gameEngine) return;
+        console.log("🎮 UI Render: Starting render process...");
+        
+        if (!this.gameEngine) {
+            console.error("❌ UI Render: No game engine found!");
+            return;
+        }
 
         const state = this.gameEngine.getState();
+        console.log("📊 UI Render: Game state loaded", { 
+            playerHand: state.playerHand?.length || 0,
+            playerMinions: state.playerMinions?.length || 0,
+            opponentMinions: state.opponentMinions?.length || 0
+        });
         
-        // 更新头部信息
-        this.updateHeader(state);
-        
-        // 渲染游戏区域
-        this.renderHand(state.playerHand, true);
-        this.renderMinions(state.playerMinions, true);
-        this.renderMinions(state.opponentMinions, false);
-        
-        // 渲染英雄信息
-        this.renderHero(state.playerHero, true);
-        this.renderHero(state.opponentHero, false);
-        
-        // 更新按钮状态
-        this.updateEndTurnButton(state);
+        try {
+            // 更新头部信息
+            console.log("🔄 UI Render: Updating header...");
+            this.updateHeader(state);
+            
+            // 渲染游戏区域
+            console.log("🃏 UI Render: Rendering player hand...");
+            this.renderHand(state.playerHand, true);
+            
+            console.log("⚔️ UI Render: Rendering player minions...");
+            this.renderMinions(state.playerMinions, true);
+            
+            console.log("👹 UI Render: Rendering opponent minions...");
+            this.renderMinions(state.opponentMinions, false);
+            
+            // 渲染英雄信息
+            console.log("🦸 UI Render: Rendering heroes...");
+            this.renderHero(state.playerHero, true);
+            this.renderHero(state.opponentHero, false);
+            
+            // 更新按钮状态
+            console.log("🔘 UI Render: Updating button states...");
+            this.updateEndTurnButton(state);
+            
+            console.log("✅ UI Render: Render completed successfully!");
+        } catch (error) {
+            console.error("❌ UI Render: Error during render:", error);
+        }
     }
 
     updateHeader(state) {
@@ -97,51 +137,106 @@ export class UIManager {
     }
 
     renderHand(hand, isPlayer) {
-        if (!isPlayer) return; // 暂时不显示对手手牌
+        console.log(`🃏 RenderHand: ${isPlayer ? 'Player' : 'Opponent'} hand with ${hand?.length || 0} cards`);
+        
+        if (!isPlayer) {
+            console.log("🃏 RenderHand: Skipping opponent hand rendering");
+            return; // 暂时不显示对手手牌
+        }
         
         const container = this.elements.playerHand;
+        if (!container) {
+            console.error("❌ RenderHand: Player hand container not found!");
+            return;
+        }
+        
+        console.log("🃏 RenderHand: Clearing container and adding cards...");
         container.innerHTML = '';
         
+        if (!hand || hand.length === 0) {
+            console.log("🃏 RenderHand: No cards to render");
+            container.innerHTML = '<div style="color: #666; padding: 10px;">No cards in hand</div>';
+            return;
+        }
+        
         hand.forEach((card, index) => {
-            const cardElement = this.createCardElement(card, true);
-            cardElement.addEventListener('click', () => this.onCardClick(card, index));
-            container.appendChild(cardElement);
+            console.log(`🃏 RenderHand: Creating card ${index + 1}: ${card.name}`);
+            try {
+                const cardElement = this.createCardElement(card, true);
+                cardElement.addEventListener('click', () => this.onCardClick(card, index));
+                container.appendChild(cardElement);
+                console.log(`✅ RenderHand: Card ${card.name} added to DOM`);
+            } catch (error) {
+                console.error(`❌ RenderHand: Error creating card ${card.name}:`, error);
+            }
         });
+        
+        console.log(`✅ RenderHand: Player hand rendering complete with ${container.children.length} elements`);
     }
 
     renderMinions(minions, isPlayer) {
+        console.log(`⚔️ RenderMinions: ${isPlayer ? 'Player' : 'Opponent'} minions with ${minions?.length || 0} units`);
+        
         const container = isPlayer ? this.elements.playerMinions : this.elements.opponentMinions;
+        if (!container) {
+            console.error(`❌ RenderMinions: ${isPlayer ? 'Player' : 'Opponent'} minion container not found!`);
+            return;
+        }
+        
+        console.log(`⚔️ RenderMinions: Clearing ${isPlayer ? 'player' : 'opponent'} minion container...`);
         container.innerHTML = '';
         
+        if (!minions || minions.length === 0) {
+            console.log(`⚔️ RenderMinions: No ${isPlayer ? 'player' : 'opponent'} minions to render`);
+            container.innerHTML = '<div style="color: #666; padding: 10px;">No minions on field</div>';
+            return;
+        }
+        
         minions.forEach((minion, index) => {
-            const minionElement = this.createCardElement(minion, false);
-            
-            if (isPlayer) {
-                minionElement.addEventListener('click', () => this.onMinionClick(minion, index));
+            console.log(`⚔️ RenderMinions: Creating minion ${index + 1}: ${minion.name}`);
+            try {
+                const minionElement = this.createCardElement(minion, false);
                 
-                // 添加攻击目标选择
-                minionElement.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    this.showAttackTargets(minion);
-                });
+                if (isPlayer) {
+                    minionElement.addEventListener('click', () => this.onMinionClick(minion, index));
+                    
+                    // 添加攻击目标选择
+                    minionElement.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        this.showAttackTargets(minion);
+                    });
+                }
+                
+                container.appendChild(minionElement);
+                console.log(`✅ RenderMinions: Minion ${minion.name} added to DOM`);
+            } catch (error) {
+                console.error(`❌ RenderMinions: Error creating minion ${minion.name}:`, error);
             }
-            
-            container.appendChild(minionElement);
         });
+        
+        console.log(`✅ RenderMinions: ${isPlayer ? 'Player' : 'Opponent'} minion rendering complete with ${container.children.length} elements`);
     }
 
     renderHero(hero, isPlayer) {
+        console.log(`🦸 RenderHero: ${isPlayer ? 'Player' : 'Opponent'} hero - HP: ${hero.hp}/${hero.maxHp}`);
+        
         // 更新英雄HP显示
         const hpElement = isPlayer ? this.elements.playerHeroHp : this.elements.opponentHp;
         const hpFillElement = isPlayer ? this.elements.playerHpFill : this.elements.opponentHpFill;
         
-        if (hpElement) {
+        if (!hpElement) {
+            console.error(`❌ RenderHero: ${isPlayer ? 'Player' : 'Opponent'} HP element not found!`);
+        } else {
             hpElement.textContent = hero.hp;
+            console.log(`✅ RenderHero: Updated ${isPlayer ? 'player' : 'opponent'} HP to ${hero.hp}`);
         }
         
-        if (hpFillElement) {
+        if (!hpFillElement) {
+            console.error(`❌ RenderHero: ${isPlayer ? 'Player' : 'Opponent'} HP fill element not found!`);
+        } else {
             const hpPercentage = (hero.hp / hero.maxHp) * 100;
             hpFillElement.style.width = `${hpPercentage}%`;
+            console.log(`✅ RenderHero: Updated ${isPlayer ? 'player' : 'opponent'} HP bar to ${hpPercentage}%`);
         }
     }
 
