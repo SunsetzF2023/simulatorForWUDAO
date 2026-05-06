@@ -3,7 +3,7 @@
     {
       "Card_Name": "Basic Office Intern",
       "Rarity": "Common",
-      "Faction": ["Ops"],
+      "Faction": ["Admin"],
       "Salary": 1,
       "Stats": {"ATK": 1, "HP": 1},
       "Abilities": {
@@ -15,7 +15,7 @@
     {
       "Card_Name": "Basic Office Staff",
       "Rarity": "Common",
-      "Faction": ["Ops"],
+      "Faction": ["Admin"],
       "Salary": 1,
       "Stats": {"ATK": 1, "HP": 2},
       "Abilities": {

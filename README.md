@@ -1,6 +1,6 @@
-# 武道轮回模拟器 (Wudao Reincarnation Simulator)
+# Office War - Corporate CCG
 
-A modular web-based martial arts cultivation simulator with roguelike elements.
+A modern web-based Collectible Card Game (CCG) inspired by Hearthstone mechanics, themed around corporate office life and workplace dynamics.
 
 ## 🎮 Play Online
 
@@ -10,18 +10,17 @@ Click the link above to play the game directly in your browser!
 
 ## 📖 About the Game
 
-Wudao Reincarnation Simulator is a text-based cultivation game where players progress through martial arts realms, make strategic choices, and experience reincarnation cycles. The game features a sophisticated attribute system, random events, and permanent progression through karma points.
+Office War is a strategic card game where players deploy corporate employees as minions to battle against opponents. The game features a unique corporate theme with mechanics like "Salary" (mana), "Resignation" (death), and various workplace-themed keywords.
 
 ### 🎯 Core Features
 
-- **9 Cultivation Realms**: From "Beginner" to "Martial Emperor"
-- **Dynamic Progress Bar**: Golden breathing animation showing realm progression
-- **Quarterly Decision System**: Make choices every 3 months
-- **Attribute Requirements**: Choices locked behind stat thresholds
-- **Cultivation Backup**: Always available "Secluded Cultivation" option
-- **Destiny System**: 8 unique destinies with stat bonuses
-- **Reincarnation Cycle**: Convert achievements to permanent upgrades
-- **Mobile Responsive**: Optimized for all devices
+- **Turn-Based Combat**: Strategic gameplay with draw, play, attack, and end phases
+- **Salary System**: Resource system starting at 1, increasing by 1 each turn (max 10)
+- **7 Rarity Tiers**: Common, Uncommon, Rare, SuperRare, Epic, Mythic, Legendary
+- **Faction System**: Different corporate departments (Admin, Ops, IT, Sales, etc.)
+- **Keyword Mechanics**: Complex abilities like Battlecry, Deathrattle, Taunt, Poison, etc.
+- **Responsive Design**: Optimized for desktop and mobile devices
+- **Modern UI**: Clean interface with animations and visual feedback
 
 ## 🏗️ Architecture
 
@@ -29,46 +28,59 @@ The project follows a modular ES6 architecture:
 
 ```
 simulatorWUDAO/
-├── index.html          # Pure HTML container structure
-├── style.css           # All styles and animations
-└── js/
-    ├── config.js       # Game configuration (realms, destinies, constants)
-    ├── events.js       # Event library (categorized by age groups)
-    ├── core.js         # Game engine and state management
-    ├── ui.js           # UI operations and DOM management
-    └── main.js         # Entry point and module coordination
+├── data/
+│   └── cards.json           # Card database with all card definitions
+├── src/
+│   ├── engine.js           # Core game engine and state management
+│   ├── entities.js         # Card classes and factory patterns
+│   ├── mechanics.js        # Game mechanics and keyword handlers
+│   ├── ui.js             # UI rendering and DOM manipulation
+│   └── main.js           # Entry point and module coordination
+├── index.html             # Main HTML structure
+├── style.css              # Complete styling and animations
+└── backup/               # Previous project backup
 ```
 
 ### 🧩 Module Breakdown
 
-- **config.js**: Static game data and configuration
-- **events.js**: Comprehensive event library with age-based categorization
-- **core.js**: Game logic, state management, and data persistence
-- **ui.js**: DOM manipulation and user interface updates
-- **main.js**: Game initialization and module coordination
+- **engine.js**: Game loop, turn management, state control
+- **entities.js**: Card, Hero classes, and CardFactory for data management
+- **mechanics.js**: Keyword processing and special effect handling
+- **ui.js**: DOM rendering, event handling, and user interactions
+- **main.js**: Game initialization and module orchestration
 
 ## 🎮 How to Play
 
-1. **Starting the Game**: Begin with randomized stats and destiny
-2. **Making Choices**: Every 3 months, choose from 3 random events
-3. **Attribute Requirements**: Some choices require minimum stats (shown when locked)
-4. **Secluded Cultivation**: Always available option to gain +1 random stat
-5. **Realm Progression**: Advance through 9 cultivation realms based on power
-6. **Reincarnation**: When lifespan ends, convert achievements to karma points
-7. **Permanent Upgrades**: Use karma to boost starting stats for next life
+### Basic Rules
+1. **Start**: Each player begins with 30 Health (Cash Flow) and 3 cards
+2. **Salary**: Gain 1 Salary per turn (max 10) to play cards
+3. **Deploy**: Play cards from hand by paying their Salary cost
+4. **Attack**: Use minions to attack enemy minions or heroes
+5. **Win**: Reduce opponent's Health to 0
 
-### 📊 Attributes
+### Card Types
+- **Minions**: Units with Attack and Health that can attack
+- **Heroes**: Players' main characters with 30 Health
 
-- **Physique (体魄)**: Affects health上限 and combat events
-- **Intelligence (悟性)**: Determines learning efficiency and insight events
-- **Mind (心性)**: Influences breakthrough success and mental fortitude
+### Keywords System
+- **Battlecry**: Effect when played from hand
+- **SeverancePay**: Positive effect on resignation (death)
+- **LegacyBug**: Negative deathrattle effect
+- **EmergencySupport**: Can attack immediately (Rush)
+- **Scapegoat**: Must be attacked first (Taunt)
+- **ShiftingBlame**: Redirect damage to allies
+- **Overtime**: Costs 1 less Salary
+- **Lethargic**: Sleeps first turn but gains Immunity
+- **PerformanceReview**: +2/+2 when damaged
+- **Slacking**: Cannot be targeted until attacks (Stealth)
+- **WorkplacePUA**: Destroys lower rarity targets (Poison)
 
 ## 🛠️ Technologies Used
 
 - **HTML5**: Semantic markup and structure
-- **CSS3**: Modern styling with animations and responsive design
+- **CSS3**: Modern styling with Grid, Flexbox, and animations
 - **JavaScript ES6+**: Modular architecture with import/export
-- **LocalStorage**: Game state persistence
+- **JSON**: Card data storage and management
 - **GitHub Pages**: Static hosting and deployment
 
 ## 🚀 Getting Started Locally
@@ -80,57 +92,81 @@ simulatorWUDAO/
 
 2. Navigate to the project directory:
    ```bash
-   cd simulatorForWUDAO
+   cd simulatorWUDAO
    ```
 
-3. Open `index.html` in your browser or use a local server:
+3. Start a local server:
    ```bash
    # Using Python
    python -m http.server 8000
    
    # Using Node.js
    npx serve .
+   
+   # Using PHP
+   php -S localhost:8000
    ```
 
-4. Access the game at `http://localhost:8000`
+4. Open your browser and navigate to:
+   ```
+   http://localhost:8000
+   ```
 
 ## 📱 Mobile Compatibility
 
-The game is fully responsive and optimized for mobile devices:
-- Touch-friendly buttons and interactions
-- Adaptive layout for different screen sizes
-- Optimized performance for mobile browsers
+- **Responsive Design**: Adapts to all screen sizes
+- **Touch Controls**: Optimized for mobile interactions
+- **Performance**: Lightweight and fast on mobile devices
+- **Cross-Browser**: Compatible with all modern browsers
 
 ## 🎨 Design Features
 
-- **Dark Theme**: Easy on the eyes with gold accent colors (#121212 background, #f1c40f accents)
-- **Breathing Animation**: Golden progress bar with pulsing effect
-- **Smooth Transitions**: CSS animations for all interactive elements
-- **Color-coded Logs**: Different colors for breakthroughs, injuries, and normal events
+- **Modern UI**: Clean, professional interface
+- **Smooth Animations**: Card play, attack, and damage effects
+- **Color Coding**: Rarity-based visual hierarchy
+- **Interactive Feedback**: Hover states and visual indicators
+- **Dark Theme**: Easy on the eyes with professional color scheme
 
-## 🔄 Game Loop
+## � Current Card Pool
 
-1. **Event Phase**: Choose from 3 random events with stat requirements
-2. **Time Progression**: Each choice advances time by 3 months
-3. **Stat Growth**: Gain attributes through choices or cultivation
-4. **Realm Breakthrough**: Automatically advance when power thresholds are met
-5. **Life Cycle**: Age increases yearly, lifespan decreases
-6. **Reincarnation**: Convert lifetime achievements to permanent bonuses
+### Basic Test Cards
+1. **Basic Office Intern** (Common, Admin) - 1/1, 1 Salary
+2. **Basic Office Staff** (Common, Admin) - 1/2, 1 Salary  
+3. **Basic Admin Staff** (Common, Admin) - 2/4, 3 Salary
 
-## 📈 Progression Systems
+### Rarity System
+- **Common** (C): Gray - Basic cards
+- **Uncommon** (U): Green - Slightly enhanced abilities
+- **Rare** (R): Blue - Strong effects
+- **SuperRare** (SR): Purple - Very powerful
+- **Epic** (E): Orange-Red - Game-changing effects
+- **Mythic** (M): Brown - Legendary status
+- **Legendary** (L): Gold - Ultimate abilities
 
-- **Power Calculation**: `Power = Physique × 2 + Intelligence × 3 + Mind × 2`
-- **Realm Thresholds**: Fixed power requirements for each realm
-- **Karma Calculation**: Based on highest realm and survival years
-- **Destiny Bonuses**: Percentage modifiers to stat gains
+## � Game Loop
+
+1. **Draw Phase**: Draw 1 card
+2. **Main Phase**: Play cards and use abilities
+3. **Combat Phase**: Attack with minions
+4. **End Phase**: End turn, trigger effects
 
 ## 🤝 Contributing
 
-This project is open for contributions! Feel free to:
-- Report bugs or issues
-- Suggest new events and features
-- Improve the modular architecture
-- Enhance the UI/UX design
+This project is open for contributions! Areas for improvement:
+
+- **Card Design**: Create new cards and mechanics
+- **AI Enhancement**: Improve opponent AI logic
+- **Visual Effects**: Add animations and particle effects
+- **Sound Design**: Implement audio feedback
+- **Balance**: Test and refine game balance
+- **Mobile Optimization**: Enhance touch controls
+
+## 🐛 Known Issues
+
+- Limited card pool (currently 3 test cards)
+- Basic AI opponent logic
+- No sound effects implemented
+- Missing advanced mechanics (factions synergies, etc.)
 
 ## 📄 License
 
@@ -142,6 +178,30 @@ This project is open source and available under the MIT License.
 - **Repository**: [https://github.com/SunsetzF2023/simulatorForWUDAO](https://github.com/SunsetzF2023/simulatorForWUDAO)
 - **Issues**: [https://github.com/SunsetzF2023/simulatorForWUDAO/issues](https://github.com/SunsetzF2023/simulatorForWUDAO/issues)
 
+## 🚀 Roadmap
+
+### Phase 1: Core Features
+- [x] Basic game loop
+- [x] Card playing mechanics
+- [x] Attack system
+- [x] Turn management
+- [x] UI framework
+
+### Phase 2: Content Expansion
+- [ ] 50+ cards with diverse abilities
+- [ ] Faction synergy system
+- [ ] Advanced keyword implementations
+- [ ] Card collection system
+
+### Phase 3: Polish & Features
+- [ ] Sound effects and music
+- [ ] Advanced animations
+- [ ] Statistics tracking
+- [ ] Replay system
+- [ ] Tournament mode
+
 ---
 
 **Built with ❤️ using modern web technologies and modular JavaScript architecture**
+
+*A strategic CCG experience where corporate warfare meets card game mechanics*
