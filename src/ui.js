@@ -1,19 +1,28 @@
-// UI渲染和DOM操作管理
+// UI渲染和DOM操作管理 - KARDS风格界面
 
 export class UIManager {
     constructor() {
         this.elements = this.initializeElements();
         this.gameEngine = null;
+        this.draggedCard = null;
+        this.dragStartX = 0;
+        this.dragStartY = 0;
     }
 
     initializeElements() {
         return {
-            // 游戏头部
+            // 资源栏
             playerSalary: document.getElementById('player-salary'),
             deckCount: document.getElementById('deck-count'),
             turnNumber: document.getElementById('turn-number'),
+            
+            // 英雄HP
             opponentHp: document.getElementById('opponent-hp'),
+            opponentHpFill: document.getElementById('opponent-hp-fill'),
             playerHeroHp: document.getElementById('player-hero-hp'),
+            playerHpFill: document.getElementById('player-hp-fill'),
+            
+            // 按钮
             endTurnBtn: document.getElementById('end-turn-btn'),
             
             // 游戏区域
@@ -124,8 +133,15 @@ export class UIManager {
     renderHero(hero, isPlayer) {
         // 更新英雄HP显示
         const hpElement = isPlayer ? this.elements.playerHeroHp : this.elements.opponentHp;
+        const hpFillElement = isPlayer ? this.elements.playerHpFill : this.elements.opponentHpFill;
+        
         if (hpElement) {
-            hpElement.textContent = `${hero.hp}/${hero.maxHp}`;
+            hpElement.textContent = hero.hp;
+        }
+        
+        if (hpFillElement) {
+            const hpPercentage = (hero.hp / hero.maxHp) * 100;
+            hpFillElement.style.width = `${hpPercentage}%`;
         }
     }
 
@@ -133,6 +149,7 @@ export class UIManager {
         const cardDiv = document.createElement('div');
         cardDiv.className = 'card';
         cardDiv.dataset.cardId = card.id;
+        cardDiv.draggable = isInHand; // 只有手牌可以拖拽
         
         // 添加稀有度样式
         const rarityClass = `rarity-${card.rarity.toLowerCase()}`;
@@ -168,7 +185,7 @@ export class UIManager {
         // 添加关键词标签
         if (card.keywords && card.keywords.length > 0) {
             const keywordsDiv = document.createElement('div');
-            keywordsDiv.style.cssText = 'margin-top: 8px; font-size: 0.7em;';
+            keywordsDiv.style.cssText = 'margin-top: 4px;';
             
             card.keywords.slice(0, 2).forEach(keyword => {
                 const keywordSpan = document.createElement('span');
@@ -180,11 +197,137 @@ export class UIManager {
             cardDiv.appendChild(keywordsDiv);
         }
         
-        // 鼠标悬停显示详情
-        cardDiv.addEventListener('mouseenter', () => this.showCardDetails(card));
-        cardDiv.addEventListener('mouseleave', () => this.hideCardDetails());
+        // 事件监听
+        this.setupCardEvents(cardDiv, card, isInHand);
         
         return cardDiv;
+    }
+
+    setupCardEvents(cardElement, card, isInHand) {
+        // 鼠标悬停显示详情
+        cardElement.addEventListener('mouseenter', () => this.showCardDetails(card));
+        cardElement.addEventListener('mouseleave', () => this.hideCardDetails());
+        
+        // 点击事件（保留原有功能）
+        if (isInHand) {
+            cardElement.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.onCardClick(card, cardElement);
+            });
+        }
+        
+        // 拖拽事件
+        if (isInHand) {
+            cardElement.addEventListener('dragstart', (e) => this.handleDragStart(e, card));
+            cardElement.addEventListener('dragend', (e) => this.handleDragEnd(e));
+            
+            // 触摸事件支持
+            cardElement.addEventListener('touchstart', (e) => this.handleTouchStart(e, card), { passive: false });
+            cardElement.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+            cardElement.addEventListener('touchend', (e) => this.handleTouchEnd(e, card));
+        }
+        
+        // 右键攻击（随从）
+        if (!isInHand) {
+            cardElement.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                this.showAttackTargets(card);
+            });
+        }
+    }
+
+    handleDragStart(e, card) {
+        this.draggedCard = card;
+        this.dragStartX = e.clientX;
+        this.dragStartY = e.clientY;
+        
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', card.id);
+        
+        // 添加拖拽样式
+        e.target.style.opacity = '0.7';
+        e.target.style.transform = 'scale(1.1) rotate(5deg)';
+        
+        // 高亮可放置区域
+        this.highlightDropZones(card);
+    }
+
+    handleDragEnd(e) {
+        e.target.style.opacity = '';
+        e.target.style.transform = '';
+        this.clearHighlights();
+        this.draggedCard = null;
+    }
+
+    handleTouchStart(e, card) {
+        e.preventDefault();
+        this.draggedCard = card;
+        this.dragStartX = e.touches[0].clientX;
+        this.dragStartY = e.touches[0].clientY;
+        
+        const touch = e.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && element.classList.contains('card')) {
+            element.style.opacity = '0.7';
+            element.style.transform = 'scale(1.1) rotate(5deg)';
+        }
+    }
+
+    handleTouchMove(e) {
+        e.preventDefault();
+        if (!this.draggedCard) return;
+        
+        const touch = e.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        // 检查是否在随从区域
+        if (element && element.closest('.player-field')) {
+            this.highlightDropZones(this.draggedCard);
+        }
+    }
+
+    handleTouchEnd(e, card) {
+        e.preventDefault();
+        if (!this.draggedCard) return;
+        
+        const touch = e.changedTouches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        // 清除样式
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '';
+            card.style.transform = '';
+        });
+        
+        // 检查是否放置在有效区域
+        if (element && element.closest('.player-field')) {
+            this.onCardClick(card, element);
+        }
+        
+        this.clearHighlights();
+        this.draggedCard = null;
+    }
+
+    highlightDropZones(card) {
+        if (!this.gameEngine) return;
+        
+        const state = this.gameEngine.getState();
+        const canPlay = this.gameEngine.canPlayCard(card, state.playerSalary, state.playerMinions);
+        
+        if (canPlay) {
+            const playerField = document.querySelector('.player-field');
+            if (playerField) {
+                playerField.style.background = 'rgba(39, 174, 96, 0.2)';
+                playerField.style.border = '2px dashed #27ae60';
+            }
+        }
+    }
+
+    clearHighlights() {
+        document.querySelectorAll('.player-field, .enemy-field').forEach(field => {
+            field.style.background = '';
+            field.style.border = '';
+        });
     }
 
     getRarityAbbreviation(rarity) {
