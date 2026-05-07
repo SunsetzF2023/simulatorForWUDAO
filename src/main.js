@@ -38,6 +38,12 @@ class OfficeWarGame {
 
 // 页面加载完成后启动游戏
 document.addEventListener('DOMContentLoaded', async () => {
+    // 强制隐藏任何可能显示的模态框
+    const modalOverlay = document.getElementById('modal-overlay');
+    if (modalOverlay) {
+        modalOverlay.classList.add('hidden');
+    }
+    
     const game = new OfficeWarGame();
     await game.initialize();
 });

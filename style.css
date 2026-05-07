@@ -19,13 +19,16 @@
     --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-body {
+html, body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #1a1d23 0%, #2d3139 50%, #1a1d23 100%);
-    color: var(--text-primary);
-    min-height: 100vh;
+    background: #1a1d23; /* 临时使用纯色背景确保可见 */
+    color: #ffffff; /* 临时使用纯白色文字 */
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
     perspective: 1000px;
+    margin: 0;
+    padding: 0;
 }
 
 #game-container {
@@ -33,35 +36,34 @@ body {
     height: 100vh;
     display: grid;
     grid-template-rows: 80px 1fr 120px;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 50%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
-        linear-gradient(180deg, #1a1d23 0%, #2d3139 100%);
+    background: #2d3139; /* 临时使用纯色背景 */
     position: relative;
-    z-index: 1;
+    z-index: 9999; /* 确保在覆盖层之上 */
     visibility: visible;
     opacity: 1;
+    border: 2px solid #d4af37; /* 添加边框确保可见 */
 }
 
 /* 顶部资源栏 */
 .game-header {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border);
+    background: #1a1d23; /* 临时使用纯色背景 */
+    border-bottom: 2px solid #d4af37; /* 添加边框确保可见 */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 30px;
+    color: #ffffff; /* 确保文字可见 */
 }
 
 .resource-bar {
     display: flex;
     gap: 40px;
     align-items: center;
-    background: rgba(0, 0, 0, 0.3);
+    background: #000000; /* 临时使用纯黑色背景 */
     padding: 15px 30px;
     border-radius: 20px;
-    border: 1px solid var(--glass-border);
+    border: 2px solid #d4af37; /* 添加边框确保可见 */
+    color: #ffffff; /* 确保文字可见 */
 }
 
 .salary-info, .turn-info, .deck-info {
@@ -84,6 +86,9 @@ body {
     grid-template-rows: 150px 120px 1fr 120px 150px;
     padding: 20px;
     gap: 20px;
+    background: #1a1d23; /* 临时使用纯色背景 */
+    border: 2px solid #4a90e2; /* 添加边框确保可见 */
+    color: #ffffff; /* 确保文字可见 */
 }
 
 /* 英雄区域 */
@@ -196,6 +201,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #2d3139; /* 临时使用纯色背景 */
+    border: 2px solid #4a90e2; /* 添加边框确保可见 */
+    min-height: 120px; /* 确保有最小高度 */
 }
 
 .minion-row {
@@ -203,10 +211,10 @@ body {
     gap: 15px;
     padding: 10px;
     min-height: 100px;
-    background: var(--glass-bg);
+    background: #1a1d23; /* 临时使用纯色背景 */
     border-radius: 15px;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
+    border: 2px solid #d4af37; /* 添加边框确保可见 */
+    color: #ffffff; /* 确保文字可见 */
 }
 
 /* 手牌区域 */
@@ -215,6 +223,9 @@ body {
     justify-content: center;
     align-items: flex-end;
     padding: 0 20px;
+    background: #2d3139; /* 临时使用纯色背景 */
+    border: 2px solid #d4af37; /* 添加边框确保可见 */
+    min-height: 150px; /* 确保有最小高度 */
 }
 
 .hand-container {
@@ -223,6 +234,7 @@ body {
     justify-content: center;
     align-items: flex-end;
     padding: 10px;
+    min-height: 120px; /* 确保有最小高度 */
 }
 
 /* 战场分隔线 */
@@ -322,8 +334,8 @@ body {
 .card {
     width: 100px;
     height: 140px;
-    background: linear-gradient(145deg, #2d3139, #1a1d23);
-    border: 2px solid #4a5568;
+    background: #4a5568; /* 临时使用较亮的背景 */
+    border: 3px solid #d4af37; /* 使用金色边框确保可见 */
     border-radius: 10px;
     padding: 8px;
     cursor: pointer;
@@ -331,11 +343,12 @@ body {
     position: relative;
     transform-style: preserve-3d;
     box-shadow: 
-        0 4px 15px var(--card-shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 4px 15px rgba(255, 255, 255, 0.3), /* 使用白色阴影 */
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: #ffffff; /* 确保文字可见 */
 }
 
 /* 卡牌厚度效果 */
@@ -488,8 +501,8 @@ body {
     z-index: 1000;
 }
 
-.modal.hidden {
-    display: none;
+.hidden {
+    display: none !important;
 }
 
 .modal-content {
