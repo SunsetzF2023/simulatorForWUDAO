@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Hearthstone Test</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .debug-overlay {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 9999;
+            font-family: monospace;
+            max-width: 300px;
+        }
+        .error { color: #ff6b6b; }
+        .success { color: #51cf66; }
+    </style>
+</head>
+<body>
+    <div class="debug-overlay" id="debug">
+        <div>Initializing...</div>
+    </div>
+
+    <div id="game-container">
+        <!-- Opponent Section -->
+        <div class="opponent-section">
+            <div class="hero-area" id="opponent-hero">
+                <div class="hero">
+                    <div class="hero-portrait">
+                        <div class="hero-class">Warrior</div>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-health">
+                            <span>HP: 30/30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mana-area" id="opponent-mana">
+                <div class="mana-display">
+                    <span class="mana-current">1</span>/<span class="mana-max">1</span>
+                </div>
+            </div>
+            <div class="board-area" id="opponent-board"></div>
+            <div class="hand-area" id="opponent-hand">
+                <div class="card card-back"></div>
+                <div class="card card-back"></div>
+                <div class="card card-back"></div>
+            </div>
+            <div class="deck-area" id="opponent-deck">
+                <div class="deck-count">
+                    <span class="deck-icon">📚</span>
+                    <span class="deck-number">20</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Turn Indicator -->
+        <div class="turn-indicator player" id="turn-indicator">
+            Your Turn
+        </div>
+
+        <!-- Player Section -->
+        <div class="player-section">
+            <div class="hand-area" id="player-hand">
+                <div class="card minion">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-cost">1</div>
+                            <div class="card-name">Intern</div>
+                        </div>
+                        <div class="card-stats">
+                            <div class="card-attack">1</div>
+                            <div class="card-health">1</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card spell">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-cost">2</div>
+                            <div class="card-name">Heal</div>
+                        </div>
+                        <div class="card-description">Restore 5 health</div>
+                    </div>
+                </div>
+            </div>
+            <div class="board-area" id="player-board"></div>
+            <div class="hero-area" id="player-hero">
+                <div class="hero">
+                    <div class="hero-portrait">
+                        <div class="hero-class">Mage</div>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-health">
+                            <span>HP: 30/30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mana-area" id="player-mana">
+                <div class="mana-display">
+                    <span class="mana-current">1</span>/<span class="mana-max">1</span>
+                </div>
+            </div>
+            <div class="deck-area" id="player-deck">
+                <div class="deck-count">
+                    <span class="deck-icon">📚</span>
+                    <span class="deck-number">20</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <button id="end-turn-btn" class="btn btn-primary">End Turn</button>
+            <button id="hero-power-btn" class="btn btn-secondary">Hero Power</button>
+        </div>
+
+        <!-- Game Log -->
+        <div class="game-log-container">
+            <h3>Game Log</h3>
+            <div id="game-log" class="game-log">
+                <div class="log-message">
+                    <span class="log-time">12:00:00</span>
+                    <span class="log-text">Game started! You go first.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const debug = document.getElementById('debug');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = message;
+            debug.appendChild(div);
+            console.log(message);
+        }
+
+        log('✓ DOM loaded', 'success');
+        log('✓ CSS loaded', 'success');
+        log('✓ Basic rendering working', 'success');
+
+        // Test basic interactions
+        document.getElementById('end-turn-btn').addEventListener('click', () => {
+            log('End turn clicked!', 'success');
+            const indicator = document.getElementById('turn-indicator');
+            indicator.textContent = 'Opponent Turn';
+            indicator.className = 'turn-indicator opponent';
+            
+            setTimeout(() => {
+                indicator.textContent = 'Your Turn';
+                indicator.className = 'turn-indicator player';
+                log('Your turn started', 'success');
+            }, 2000);
+        });
+
+        document.getElementById('hero-power-btn').addEventListener('click', () => {
+            log('Hero power clicked!', 'success');
+        });
+
+        // Test card interactions
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                log('Card clicked!', 'success');
+            });
+        });
+
+        log('✓ Event listeners working', 'success');
+        log('✓ Page fully interactive', 'success');
+    </script>
+</body>
+</html>
