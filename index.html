@@ -1,129 +1,81 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Office War - 职场大战</title>
-    <link rel="stylesheet" href="style-minimal.css">
+    <title>Hearthstone Simulator</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="game-container">
-        <!-- 游戏顶部信息栏 -->
-        <header class="game-header">
-            <div class="resource-bar">
-                <div class="salary-info">
-                    <span class="resource-icon">💰</span>
-                    <span id="player-salary">1</span>/10
-                </div>
-                <div class="turn-info">
-                    <span class="turn-icon">🔄</span>
-                    回合 <span id="turn-number">1</span>
-                </div>
-                <div class="deck-info">
-                    <span class="deck-icon">📚</span>
-                    <span id="deck-count">20</span>
-                </div>
+        <!-- Opponent Section -->
+        <div class="opponent-section">
+            <div class="hero-area" id="opponent-hero">
+                <!-- Hero will be rendered here -->
             </div>
-        </header>
-
-        <!-- 主战场区域 -->
-        <main class="battlefield">
-            <!-- 对手英雄区域 -->
-            <section class="enemy-hero-zone">
-                <div class="hero-container" id="opponent-hero">
-                    <div class="hero-portrait enemy">
-                        <div class="hero-frame">
-                            <div class="hero-avatar">
-                                <div class="avatar-image">🎓</div>
-                            </div>
-                            <div class="hero-stats">
-                                <div class="hero-name">创业大学生</div>
-                                <div class="hp-bar">
-                                    <div class="hp-fill" id="opponent-hp-fill"></div>
-                                    <span class="hp-text" id="opponent-hp">30</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 对手随从区域 -->
-            <section class="enemy-field">
-                <div class="minion-row" id="opponent-minions"></div>
-            </section>
-
-            <!-- 战场中部分隔线 -->
-            <div class="battlefield-divider">
-                <div class="divider-line"></div>
-                <div class="divider-text">VS</div>
+            <div class="mana-area" id="opponent-mana">
+                <!-- Mana will be rendered here -->
             </div>
-
-            <!-- 玩家随从区域 -->
-            <section class="player-field">
-                <div class="minion-row" id="player-minions"></div>
-            </section>
-
-            <!-- 玩家手牌区域 -->
-            <section class="player-hand-zone">
-                <div class="hand-container" id="player-hand"></div>
-            </section>
-
-            <!-- 玩家英雄区域 -->
-            <section class="player-hero-zone">
-                <div class="hero-container" id="player-hero">
-                    <div class="hero-portrait">
-                        <div class="hero-frame">
-                            <div class="hero-avatar">
-                                <div class="avatar-image">🎓</div>
-                            </div>
-                            <div class="hero-stats">
-                                <div class="hero-name">创业大学生</div>
-                                <div class="hp-bar">
-                                    <div class="hp-fill" id="player-hp-fill"></div>
-                                    <span class="hp-text" id="player-hero-hp">30</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- 游戏控制面板 -->
-        <aside class="control-panel">
-            <div class="turn-control">
-                <button id="end-turn-btn" class="end-turn-btn">
-                    <span class="btn-icon">⏭️</span>
-                    <span class="btn-text">结束回合</span>
-                </button>
+            <div class="board-area" id="opponent-board">
+                <!-- Minions will be rendered here -->
             </div>
-            
-            <div class="info-panels">
-                <div class="card-info-panel">
-                    <h4>卡牌详情</h4>
-                    <div id="card-details">
-                        <p class="placeholder">悬停查看卡牌信息</p>
-                    </div>
-                </div>
-                
-                <div class="game-log-panel">
-                    <h4>战斗日志</h4>
-                    <div id="game-log"></div>
-                </div>
+            <div class="hand-area" id="opponent-hand">
+                <!-- Hand cards will be rendered here -->
             </div>
-        </aside>
-    </div>
+            <div class="deck-area" id="opponent-deck">
+                <!-- Deck count will be rendered here -->
+            </div>
+        </div>
 
-    <!-- 模态框 -->
-    <div id="modal-overlay" class="hidden">
-        <div class="modal-content">
-            <h2 id="modal-title"></h2>
-            <p id="modal-message"></p>
-            <button id="modal-close" class="modal-btn">关闭</button>
+        <!-- Turn Indicator -->
+        <div class="turn-indicator" id="turn-indicator">
+            Your Turn
+        </div>
+
+        <!-- Player Section -->
+        <div class="player-section">
+            <div class="hand-area" id="player-hand">
+                <!-- Hand cards will be rendered here -->
+            </div>
+            <div class="board-area" id="player-board">
+                <!-- Minions will be rendered here -->
+            </div>
+            <div class="hero-area" id="player-hero">
+                <!-- Hero will be rendered here -->
+            </div>
+            <div class="mana-area" id="player-mana">
+                <!-- Mana will be rendered here -->
+            </div>
+            <div class="deck-area" id="player-deck">
+                <!-- Deck count will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <button id="end-turn-btn" class="btn btn-primary">End Turn</button>
+            <button id="hero-power-btn" class="btn btn-secondary">Hero Power</button>
+        </div>
+
+        <!-- Game Log -->
+        <div class="game-log-container">
+            <h3>Game Log</h3>
+            <div id="game-log" class="game-log">
+                <!-- Log messages will appear here -->
+            </div>
         </div>
     </div>
+
+    <!-- Game Over Overlay -->
+    <div id="game-over-overlay" class="overlay hidden">
+        <!-- Game over content will be rendered here -->
+    </div>
+
+    <!-- Tooltips -->
+    <div id="card-tooltip" class="tooltip hidden"></div>
+    <div id="minion-tooltip" class="tooltip hidden"></div>
+    <div id="hero-tooltip" class="tooltip hidden"></div>
 
     <script type="module" src="src/main.js"></script>
 </body>

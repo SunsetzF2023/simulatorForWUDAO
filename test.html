@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hearthstone Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #222;
+            color: white;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #666;
+            border-radius: 5px;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+    </style>
+</head>
+<body>
+    <h1>Hearthstone Simulator Test</h1>
+    <div id="test-results"></div>
+
+    <script type="module">
+        async function testGame() {
+            const results = document.getElementById('test-results');
+            
+            try {
+                // Test imports
+                const { GameState } = await import('./src/core/gameState.js');
+                const { TurnManager } = await import('./src/core/turnManager.js');
+                const { GameRenderer } = await import('./src/ui/renderGame.js');
+                
+                results.innerHTML += '<div class="test-section success">✓ Imports successful</div>';
+                
+                // Test game state creation
+                const gameState = new GameState();
+                results.innerHTML += '<div class="test-section success">✓ GameState created</div>';
+                
+                // Test turn manager
+                const turnManager = new TurnManager(gameState);
+                results.innerHTML += '<div class="test-section success">✓ TurnManager created</div>';
+                
+                // Test renderer
+                const renderer = new GameRenderer();
+                results.innerHTML += '<div class="test-section success">✓ GameRenderer created</div>';
+                
+                // Test data loading
+                const heroesResponse = await fetch('data/heroes.json');
+                const heroesData = await heroesResponse.json();
+                results.innerHTML += '<div class="test-section success">✓ Heroes data loaded</div>';
+                
+                const cardsResponse = await fetch('data/cards.json');
+                const cardsData = await cardsResponse.json();
+                results.innerHTML += '<div class="test-section success">✓ Cards data loaded</div>';
+                
+                const decksResponse = await fetch('data/decks.json');
+                const decksData = await decksResponse.json();
+                results.innerHTML += '<div class="test-section success">✓ Decks data loaded</div>';
+                
+                results.innerHTML += '<div class="test-section success">🎉 All tests passed! The game should work.</div>';
+                
+            } catch (error) {
+                results.innerHTML += `<div class="test-section error">❌ Error: ${error.message}</div>`;
+                console.error('Test error:', error);
+            }
+        }
+        
+        testGame();
+    </script>
+</body>
+</html>

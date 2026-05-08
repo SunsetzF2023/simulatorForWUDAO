@@ -1,40 +1,61 @@
 {
   "cards": [
     {
-      "Card_Name": "Basic Office Intern",
-      "Rarity": "Common",
-      "Faction": ["Admin"],
-      "Salary": 1,
-      "Stats": {"ATK": 1, "HP": 1},
-      "Abilities": {
-        "Passive": "None",
-        "Active": "None"
-      },
-      "description": "办公室实习生，职场新人，战斗力较弱但胜在便宜"
+      "id": "intern",
+      "name": "Basic Office Intern",
+      "cost": 1,
+      "type": "minion",
+      "attack": 1,
+      "health": 1,
+      "rarity": "common",
+      "description": "An office intern, weak but cheap."
     },
     {
-      "Card_Name": "Basic Office Staff",
-      "Rarity": "Common",
-      "Faction": ["Admin"],
-      "Salary": 1,
-      "Stats": {"ATK": 1, "HP": 2},
-      "Abilities": {
-        "Passive": "None",
-        "Active": "None"
-      },
-      "description": "普通办公室职员，基本的战斗力单位"
+      "id": "staff",
+      "name": "Basic Office Staff", 
+      "cost": 1,
+      "type": "minion",
+      "attack": 1,
+      "health": 2,
+      "rarity": "common",
+      "description": "Basic office staff with decent stats."
     },
     {
-      "Card_Name": "Basic Admin Staff",
-      "Rarity": "Common",
-      "Faction": ["Admin"],
-      "Salary": 3,
-      "Stats": {"ATK": 2, "HP": 4},
-      "Abilities": {
-        "Passive": "None",
-        "Active": "None"
-      },
-      "description": "行政人员，拥有更好的耐久度和攻击力"
+      "id": "admin",
+      "name": "Basic Admin Staff",
+      "cost": 3,
+      "type": "minion", 
+      "attack": 2,
+      "health": 4,
+      "rarity": "common",
+      "description": "Administrative staff with good durability."
+    },
+    {
+      "id": "tank",
+      "name": "Office Tank",
+      "cost": 4,
+      "type": "minion",
+      "attack": 2,
+      "health": 6,
+      "rarity": "common",
+      "keywords": ["taunt"],
+      "description": "Taunt. A sturdy defender."
+    },
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "cost": 4,
+      "type": "spell",
+      "rarity": "common",
+      "description": "Deal 6 damage."
+    },
+    {
+      "id": "heal",
+      "name": "Healing Potion",
+      "cost": 2,
+      "type": "spell",
+      "rarity": "common", 
+      "description": "Restore 5 health."
     }
   ]
 }

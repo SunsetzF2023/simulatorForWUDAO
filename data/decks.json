@@ -1,0 +1,36 @@
+{
+  "decks": [
+    {
+      "id": "basic_mage",
+      "name": "Basic Mage Deck",
+      "hero": "mage",
+      "cards": [
+        {"id": "intern", "count": 2},
+        {"id": "staff", "count": 2},
+        {"id": "admin", "count": 2},
+        {"id": "tank", "count": 2},
+        {"id": "fireball", "count": 2},
+        {"id": "heal", "count": 2},
+        {"id": "intern", "count": 2},
+        {"id": "staff", "count": 2},
+        {"id": "admin", "count": 2}
+      ]
+    },
+    {
+      "id": "basic_warrior",
+      "name": "Basic Warrior Deck", 
+      "hero": "warrior",
+      "cards": [
+        {"id": "intern", "count": 2},
+        {"id": "staff", "count": 2},
+        {"id": "admin", "count": 2},
+        {"id": "tank", "count": 3},
+        {"id": "heal", "count": 3},
+        {"id": "intern", "count": 2},
+        {"id": "staff", "count": 2},
+        {"id": "admin", "count": 2},
+        {"id": "tank", "count": 2}
+      ]
+    }
+  ]
+}

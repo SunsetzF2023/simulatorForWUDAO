@@ -1,0 +1,24 @@
+{
+  "heroes": [
+    {
+      "id": "mage",
+      "name": "Mage",
+      "hp": 30,
+      "heroPower": {
+        "name": "Fireblast",
+        "cost": 2,
+        "description": "Deal 1 damage"
+      }
+    },
+    {
+      "id": "warrior",
+      "name": "Warrior", 
+      "hp": 30,
+      "heroPower": {
+        "name": "Armor Up",
+        "cost": 2,
+        "description": "Gain 2 Armor"
+      }
+    }
+  ]
+}
